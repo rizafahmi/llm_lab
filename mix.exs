@@ -66,7 +66,9 @@ defmodule LlmLab.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:phoenix_test, "~> 0.9.1", only: :test, runtime: false},
-      {:mix_test_interactive, "~> 5.0", only: :dev, runtime: false}
+      {:mix_test_interactive, "~> 5.0", only: :dev, runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -82,6 +84,7 @@ defmodule LlmLab.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      check: ["format", "credo", "dialyzer"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["compile", "tailwind llm_lab", "esbuild llm_lab"],
       "assets.deploy": [
