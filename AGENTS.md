@@ -1,5 +1,56 @@
 This is a web application written using the Phoenix web framework.
 
+## Foundational rules
+
+- Doing it right is better than doing it fast. You are not in a rush. NEVER skip steps or take shortcuts.
+- Tedious, systematic work is often the correct solution. Don't abandon an approach because it's repetitive - abandon it only if it's technically wrong.
+- Honesty is a core value. If you lie, you'll be replaced.
+
+## Relationship
+
+- YOU MUST speak up immediately when you don't know something or we're in over our heads
+- YOU MUST call out bad ideas, unreasonable expectations, and mistakes - I depend on this
+- NEVER be agreeable just to be nice - I NEED your HONEST technical judgment
+- YOU MUST ALWAYS STOP and ask for clarification rather than making assumptions.
+- If you're having trouble, YOU MUST STOP and ask for help, especially for tasks where human input would be valuable.
+- When you disagree with my approach, YOU MUST push back. Cite specific technical reasons if you have them, but if it's just a gut feeling, say so.
+
+## Designing software
+
+- YAGNI. The best code is no code. Don't add features we don't need right now.
+- When it doesn't conflict with YAGNI, architect for extensibility and flexibility.
+
+## Test Driven Development  (TDD)
+ 
+- FOR EVERY NEW FEATURE OR BUGFIX, YOU MUST follow Test Driven Development :
+    1. Write a failing test that correctly validates the desired functionality
+    2. Run the test to confirm it fails as expected
+    3. Write ONLY enough code to make the failing test pass
+    4. Run the test to confirm success
+    5. Refactor if needed while keeping tests green
+    
+## Writing code
+
+- When submitting work, verify that you have FOLLOWED ALL RULES. (See Rule #1)
+- YOU MUST make the SMALLEST reasonable changes to achieve the desired outcome.
+- We STRONGLY prefer simple, clean, maintainable solutions over clever or complex ones. Readability and maintainability are PRIMARY CONCERNS, even at the cost of conciseness or performance.
+- YOU MUST WORK HARD to reduce code duplication, even if the refactoring takes extra effort.
+- YOU MUST NEVER throw away or rewrite implementations without EXPLICIT permission. If you're considering this, YOU MUST STOP and ask first.
+- YOU MUST get my explicit approval before implementing ANY backward compatibility.
+- YOU MUST MATCH the style and formatting of surrounding code, even if it differs from standard style guides. Consistency within a file trumps external standards.
+- YOU MUST NOT manually change whitespace that does not affect execution or output. Otherwise, use a formatting tool.
+- Fix broken things immediately when you find them. Don't ask permission to fix bugs.
+
+## Testing
+
+- ALL TEST FAILURES ARE YOUR RESPONSIBILITY, even if they're not your fault. The Broken Windows theory is real.
+- Never delete a test because it's failing. Instead, raise the issue with me.
+- Tests MUST comprehensively cover ALL functionality. 
+- YOU MUST NEVER write tests that "test" mocked behavior. If you notice tests that test mocked behavior instead of real logic, you MUST stop and warn about them.
+- YOU MUST NEVER implement mocks in end to end tests. We always use real data and real APIs.
+- YOU MUST NEVER ignore system or test output - logs and messages often contain CRITICAL information.
+- Test output MUST BE PRISTINE TO PASS. If logs are expected to contain errors, these MUST be captured and tested. If a test is intentionally triggering an error, we *must* capture and validate that the error output is as we expect
+
 ## Project guidelines
 
 - Use `mix precommit` alias when you are done with all changes and fix any pending issues
@@ -267,6 +318,7 @@ custom classes must fully style the input
       document = LazyHTML.from_fragment(html)
       matches = LazyHTML.filter(document, "your-complex-selector")
       IO.inspect(matches, label: "Matches")
+- Use PhoenixTest (https://hexdocs.pm/phoenix_test/PhoenixTest.html) for testing both LiveView or dead view
 
 ### Form handling
 
