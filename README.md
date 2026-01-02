@@ -1,5 +1,14 @@
 # LlmLab
 
+**LLM Lab Notes** is a public notebook of prompts and human field notes.
+
+It collects the prompts people actually use — from simple one‑shot sentences to PRDs and SPEC documents — along with qualitative observations and reference links. The goal is not to rank models or produce objective scores, but to write down what we notice when we try things, so we don’t forget.
+
+This is an intentionally small project.
+If it helps even a few people remember what they tried and why, it’s doing its job.
+
+## Getting started
+
 To start your Phoenix server:
 
 * Run `mix setup` to install and setup dependencies
