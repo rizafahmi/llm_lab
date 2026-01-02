@@ -1,4 +1,7 @@
 defmodule LlmLabWeb.FeatureCase do
+  @moduledoc """
+  This module defines the test case to be used by feature tests or acceptance tests using PhoenixTest library.
+  """
   use ExUnit.CaseTemplate
 
   using do
