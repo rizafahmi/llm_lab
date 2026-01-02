@@ -84,7 +84,6 @@ defmodule LlmLab.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      check: ["format", "credo", "dialyzer"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["compile", "tailwind llm_lab", "esbuild llm_lab"],
       "assets.deploy": [
@@ -92,7 +91,14 @@ defmodule LlmLab.MixProject do
         "esbuild llm_lab --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warning-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: [
+        "compile --warning-as-errors",
+        "deps.unlock --unused",
+        "format",
+        "credo",
+        "dialyzer",
+        "test"
+      ]
     ]
   end
 end
