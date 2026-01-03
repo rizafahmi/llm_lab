@@ -60,17 +60,25 @@ For each feature:
 - [ ] **Status:** GREEN after seed loads
 - [ ] Run: `mix ecto.reset`
 
-### Phase 1D: LiveView & UI (Inner Circle TDD)
-- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs` for LiveView mounting and rendering:
-  - `PromptIndexLive` renders without errors
-  - Page content contains prompt titles
-  - Page content contains category names
+### Phase 1D: Create PromptIndexLive Module (Inner Circle TDD)
+- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs` for LiveView mounting:
+  - `PromptIndexLive` mounts without errors
+  - Assigns prompts to socket
 - [ ] **Status:** RED
 - [ ] Create `LlmLabWeb.PromptIndexLive` module
-  - Mount: fetch and assign prompts
-  - Template: display prompts grouped by category
+  - Mount: fetch and assign prompts using `list_prompts/0`
 - [ ] **Status:** GREEN
+- [ ] Run unit tests
+
+### Phase 1E: Index Template & Route (Inner Circle TDD)
+- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs` for template rendering:
+  - Page content contains prompt titles
+  - Page content contains category names
+  - Categories are displayed as distinct sections
+- [ ] **Status:** RED
+- [ ] Create template for `PromptIndexLive` displaying prompts grouped by category
 - [ ] Add route `/` to router
+- [ ] **Status:** GREEN
 - [ ] Run unit tests
 
 ### Return to Feature Test
@@ -126,42 +134,67 @@ For each feature:
 - [ ] **Status:** GREEN
 - [ ] Run unit tests
 
-### Phase 2C: Markdown Rendering (Inner Circle TDD)
+### Phase 2C: Create PromptDetailLive Module (Inner Circle TDD)
+- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs`:
+  - `PromptDetailLive` mounts with a prompt ID and assigns prompt + notes
+- [ ] **Status:** RED
+- [ ] Create `LlmLabWeb.PromptDetailLive` module
+  - Mount: fetch prompt with notes using `get_prompt!/1`, assign to socket
+- [ ] **Status:** GREEN
+- [ ] Run unit tests
+
+### Phase 2D: Detail Template & Route (Inner Circle TDD)
+- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs`:
+  - Page renders prompt title and text
+  - Page renders "when to use" section if present
+  - All notes are displayed
+  - Notes appear in chronological order
+- [ ] **Status:** RED
+- [ ] Create template for `PromptDetailLive` displaying:
+  - Prompt title
+  - Prompt text
+  - "When to use" section
+  - All associated notes in chronological order
+- [ ] Add route `/prompts/:id` to router
+- [ ] **Status:** GREEN
+- [ ] Run unit tests
+
+### Phase 2E: Make Index Links Clickable (Inner Circle TDD)
+- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs`:
+  - Prompt titles on index page are clickable links
+  - Clicking a prompt navigates to detail page
+- [ ] **Status:** RED
+- [ ] Update `PromptIndexLive` template: wrap prompt titles in `<.link>` to detail page
+- [ ] **Status:** GREEN
+- [ ] Run unit tests
+
+### Phase 2F: Markdown Rendering (Inner Circle TDD)
 - [ ] Create unit test `test/llm_lab_web/components/markdown_test.exs`:
   - `render_markdown/1` converts Markdown to HTML
   - Output is safe (marked with `Phoenix.HTML.raw/1`)
-  - Headers, emphasis, lists, links all render
+  - Headers, emphasis, lists, links, code blocks all render
 - [ ] **Status:** RED
 - [ ] Add `:earmark` to `mix.exs` (if not already present)
 - [ ] Create helper function `LlmLabWeb.MarkdownHelpers.render_markdown/1`
   - Uses Earmark to convert Markdown to HTML
   - Returns `Phoenix.HTML.raw/1` output
 - [ ] **Status:** GREEN
+- [ ] Update templates to use `render_markdown/1` for:
+  - Prompt text in detail page
+  - "When to use" section
+  - Note content
+- [ ] **Status:** GREEN (templates now render Markdown)
 - [ ] Run unit tests
 
-### Phase 2D: LiveView & UI (Inner Circle TDD)
-- [ ] Create unit test `test/llm_lab_web/prompts_live_test.exs`:
-  - `PromptDetailLive` mounts with a prompt ID
-  - Page renders prompt title, text, and notes
-  - Notes appear in chronological order
-  - Creation date is formatted and visible for each note
-- [ ] **Status:** RED
-- [ ] Create `LlmLabWeb.PromptDetailLive` module
-  - Mount: fetch prompt with notes, assign to socket
-  - Template: display prompt, when_to_use, notes with dates
-- [ ] **Status:** GREEN
-- [ ] Add route `/prompts/:id` to router
-- [ ] Update index page template: make prompt titles clickable links
-- [ ] Run unit tests
-
-### Phase 2E: Seed Data (Inner Circle TDD)
+### Phase 2G: Seed Data (Inner Circle TDD)
 - [ ] Update `priv/repo/seeds.exs` to include notes for each prompt
   - Add 1–2 notes per prompt with various fields (some with models_tested, reference_url, author; some without)
+  - Use Markdown in prompt_text, when_to_use, and note fields
 - [ ] Run: `mix ecto.reset`
 
 ### Return to Feature Test
 - [ ] Run feature test: `mix test test/llm_lab_web/features/view_prompt_detail_test.exs`
-- [ ] **Status:** GREEN if all steps are correct
+- [ ] **Status:** GREEN if all steps above are correct
 - [ ] If RED: identify missing piece and repeat inner circle
 
 ### Refactor Phase 2
@@ -169,7 +202,7 @@ For each feature:
 - [ ] Improve detail page template typography and spacing
 - [ ] Improve note metadata display (date, author, models, reference)
 - [ ] Run all tests: `mix test` (all tests should pass)
-- [ ] **Commit:** "Feature 2: View prompt detail with notes"
+- [ ] **Commit:** "Feature 2: View prompt detail with notes + Markdown rendering"
 
 ---
 
@@ -280,41 +313,6 @@ For each feature:
 
 ---
 
-## Feature 5: Markdown Rendering for Prompts and Notes
-
-**User story:** As a visitor, I can read prompts and notes with full Markdown formatting (headers, lists, bold, links, etc.).
-
-### Feature Test
-- [ ] Create `test/llm_lab_web/features/markdown_rendering_test.exs`
-- [ ] Write failing feature test:
-  - Create a prompt with Markdown (headers, emphasis, lists, code blocks)
-  - Create a note with Markdown
-  - Visit detail page
-  - Assert Markdown is rendered as HTML (visual check or HTML inspection)
-  - Assert plain text content is preserved
-- [ ] **Status:** RED
-
-### Phase 5A: Markdown Rendering in Template (Inner Circle TDD)
-- [ ] Create unit test `test/llm_lab_web/components/markdown_test.exs` (if not done in Feature 2):
-  - Verify Markdown renders correctly
-- [ ] **Status:** (may be GREEN from Feature 2)
-- [ ] Update templates to use `render_markdown/1` helper for:
-  - Prompt text
-  - "When to use" section
-  - Note content
-- [ ] **Status:** GREEN
-- [ ] Run unit tests
-
-### Return to Feature Test
-- [ ] Run feature test: `mix test test/llm_lab_web/features/markdown_rendering_test.exs`
-- [ ] **Status:** GREEN
-
-### Refactor Phase 5
-- [ ] Clean up feature test
-- [ ] Test edge cases: special characters, code blocks, links
-- [ ] Run all tests: `mix test`
-- [ ] **Commit:** "Feature 5: Markdown rendering"
-
 ---
 
 ## Feature 6: Responsive Design
@@ -378,12 +376,11 @@ For each feature:
 
 Each feature results in one commit:
 
-1. "Feature 1: Browse prompts by category" (database + index page)
-2. "Feature 2: View prompt detail with notes" (detail page + notes)
+1. "Feature 1: Browse prompts by category" (database + index page + route)
+2. "Feature 2: View prompt detail with notes + Markdown rendering" (detail page + notes + Markdown support)
 3. "Feature 3: Search prompts by title" (search functionality)
 4. "Feature 4: Display note metadata" (dates, authors, models, URLs)
-5. "Feature 5: Markdown rendering" (Markdown support)
-6. "Feature 6: Responsive design" (mobile/tablet support)
+5. "Feature 5: Responsive design" (mobile/tablet support)
 
 ---
 
