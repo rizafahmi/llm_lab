@@ -24,4 +24,41 @@ defmodule LlmLab.Catalog do
     |> Repo.get!(id)
     |> Repo.preload([:category, notes: []])
   end
+
+  @doc """
+  Searches prompts by title or category name.
+  Returns all prompts grouped by category.
+  """
+  def search_prompts(query) do
+    if String.trim(query) == "" do
+      list_prompts_by_category()
+    else
+      # Get all categories and their prompts
+      categories = list_prompts_by_category()
+
+      # Filter categories and prompts based on search query
+      search_lower = String.downcase(query)
+
+      categories
+      |> Enum.map(fn category ->
+        category_matches = String.contains?(String.downcase(category.name), search_lower)
+
+        filtered_prompts =
+          if category_matches do
+            # If category matches, show all prompts in that category
+            category.prompts
+          else
+            # Otherwise, only show prompts that match the search query
+            Enum.filter(category.prompts, fn prompt ->
+              String.contains?(String.downcase(prompt.title), search_lower)
+            end)
+          end
+
+        Map.put(category, :prompts, filtered_prompts)
+      end)
+      |> Enum.filter(fn category ->
+        Enum.any?(category.prompts)
+      end)
+    end
+  end
 end

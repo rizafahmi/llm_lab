@@ -7,7 +7,13 @@ defmodule LlmLabWeb.PromptsLive do
   def mount(_params, _session, socket) do
     categories = Catalog.list_prompts_by_category()
 
-    {:ok, assign(socket, categories: categories)}
+    {:ok, assign(socket, categories: categories, search_query: "")}
+  end
+
+  @impl true
+  def handle_event("search", %{"search" => query}, socket) do
+    categories = Catalog.search_prompts(query)
+    {:noreply, assign(socket, categories: categories, search_query: query)}
   end
 
   @impl true
@@ -45,6 +51,16 @@ defmodule LlmLabWeb.PromptsLive do
     ~H"""
     <div>
       <h1>Browse Prompts</h1>
+      <form phx-change="search" id="search-form">
+        <label for="search">Search</label>
+        <input
+          type="text"
+          name="search"
+          id="search"
+          value={@search_query}
+          placeholder="Search by title or category..."
+        />
+      </form>
       <%= for category <- @categories do %>
         <div>
           <h2>{category.name}</h2>
