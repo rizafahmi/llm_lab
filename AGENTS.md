@@ -23,11 +23,28 @@ This is a web application written using the Phoenix web framework.
 ## Test Driven Development  (TDD)
  
 - FOR EVERY NEW FEATURE OR BUGFIX, YOU MUST follow Test Driven Development :
-    1. Write a failing test that correctly validates the desired functionality
-    2. Run the test to confirm it fails as expected
-    3. Write ONLY enough code to make the failing test pass
-    4. Run the test to confirm success
-    5. Refactor if needed while keeping tests green
+    1. Always follow the TDD cycle: Red -> Green -> Refactor
+    2. Write a failing test that correctly validates the desired functionality. Write the simplest failing test first.
+    3. Run the test to confirm it fails as expected
+    4. Write ONLY enough implementation code to make the failing test pass
+    5. Run the test to confirm success
+    6. Refactor if needed while keeping tests green
+- Follow Kent Beck's "Tidy First" approach by separating structural from behavioral changes
+- Maintain high code quality throughout development
+
+## TIDY FIRST APPROACH
+
+- Separate all changes into two distinct types:
+
+1. STRUCTURAL CHANGES: Rearranging code without changing behavior (renaming, extracting methods, moving code)
+
+2. BEHAVIORAL CHANGES: Adding or modifying actual functionality
+
+- Never mix structural and behavioral changes in the same commit
+
+- Always make structural changes first when both are needed
+
+- Validate structural changes do not alter behavior by running tests before and after
     
 ## Writing code
 
@@ -384,6 +401,45 @@ And **never** do this:
 <!-- phoenix:liveview-end -->
 
 <!-- usage-rules-end -->
+
+## CODE QUALITY STANDARDS
+
+- Eliminate duplication ruthlessly
+- Express intent clearly through naming and structure
+- Make dependencies explicit
+- Keep methods small and focused on a single responsibility
+- Minimize state and side effects
+- Use the simplest solution that could possibly work
+
+## REFACTORING GUIDELINES
+
+- Refactor only when tests are passing (in the "Green" phase)
+- Use established refactoring patterns with their proper names
+- Make one refactoring change at a time
+- Run tests after each refactoring step
+- Prioritize refactorings that remove duplication or improve clarity
+
+## EXAMPLE WORKFLOW
+
+When approaching a new feature:
+
+1. Write a simple failing test for a small part of the feature
+
+2. Implement the bare minimum to make it pass
+
+3. Run tests to confirm they pass (Green)
+
+4. Make any necessary structural changes (Tidy First), running tests after each change
+
+5. Commit structural changes separately
+
+6. Add another test for the next small increment of functionality
+
+7. Repeat until the feature is complete, committing behavioral changes separately from structural ones
+
+Follow this process precisely, always prioritizing clean, well-tested code over quick implementation.
+
+Always write one test at a time, make it run, then improve structure. Always run all the tests (except long-running tests) each time.
 
 ## Landing the Plane (Session Completion)
 
