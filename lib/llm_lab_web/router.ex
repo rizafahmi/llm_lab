@@ -18,6 +18,8 @@ defmodule LlmLabWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/prompts", PromptsLive, :index
+    live "/prompts/:id", PromptsLive, :show
   end
 
   # Other scopes may use custom stacks.
