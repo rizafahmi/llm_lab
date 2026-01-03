@@ -9,6 +9,9 @@ defmodule LlmLab.Catalog.Note do
 
   schema "notes" do
     field :content, :string
+    field :author, :string
+    field :models_tested, :string
+    field :reference_url, :string
 
     belongs_to :prompt, LlmLab.Catalog.Prompt
 
@@ -18,7 +21,7 @@ defmodule LlmLab.Catalog.Note do
   @doc false
   def changeset(note, attrs) do
     note
-    |> cast(attrs, [:content, :prompt_id])
+    |> cast(attrs, [:content, :author, :models_tested, :reference_url, :prompt_id])
     |> validate_required([:content, :prompt_id])
     |> assoc_constraint(:prompt)
   end

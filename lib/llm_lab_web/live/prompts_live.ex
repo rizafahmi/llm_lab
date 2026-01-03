@@ -39,7 +39,20 @@ defmodule LlmLabWeb.PromptsLive do
       <div>
         <%= for note <- @notes do %>
           <div>
-            {note.content}
+            <p>{note.content}</p>
+            <%= if note.author do %>
+              <div>{note.author}</div>
+            <% end %>
+            <%= if note.models_tested do %>
+              <div>{note.models_tested}</div>
+            <% end %>
+            <%= if note.reference_url do %>
+              <div>
+                <a href={note.reference_url} target="_blank">
+                  {note.reference_url}
+                </a>
+              </div>
+            <% end %>
           </div>
         <% end %>
       </div>
