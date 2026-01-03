@@ -11,6 +11,7 @@ defmodule LlmLab.Catalog.Prompt do
     field :content, :string
 
     belongs_to :category, LlmLab.Catalog.Category
+    has_many :notes, LlmLab.Catalog.Note
 
     timestamps(type: :utc_datetime)
   end
